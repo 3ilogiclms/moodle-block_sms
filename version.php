@@ -22,7 +22,7 @@
  * @date: 06-Jun-2013
 */
 
-$plugin->version   = 2013060700;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2013060702;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2011070100;        // Requires this Moodle version
 $plugin->release = '2.3';
 $plugin->maturity = MATURITY_BETA;
