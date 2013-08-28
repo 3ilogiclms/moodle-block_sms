@@ -46,3 +46,4 @@
     $string['block_sms_apikey'] = 'block_sms_apikey';
     $string['block_sms_api_username'] = 'block_sms_api_username';
     $string['block_sms_api_password'] = 'block_sms_api_password';
+    $string['sms:addinstance']='Add Instance';
