@@ -31,10 +31,12 @@ class block_sms extends block_base {
         if ($this->content !== null) {
             return $this->content;
         }
-        $pageurl = new moodle_url('/blocks/sms/view.php?viewpage=');
+        // $pageurl = new moodle_url('/blocks/sms/view.php?viewpage=');
         $this->content =  new stdClass;
-        $this->content->text .= html_writer::link($pageurl.'2', get_string('sms_send', 'block_sms')).'<br>';
-        $this->content->text .= html_writer::link($pageurl.'3', get_string('sms_template', 'block_sms')).'<br>';
+        // $this->content->text .= html_writer::link($pageurl.'2', get_string('sms_send', 'block_sms')).'<br>';
+        // $this->content->text .= html_writer::link($pageurl.'3', get_string('sms_template', 'block_sms')).'<br>';
+        $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '2')), get_string('sms_send', 'block_sms')).'<br>';
+        $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '3')), get_string('sms_template', 'block_sms')).'<br>';
         return $this->content;
     }
     public function has_config() {
@@ -57,7 +59,7 @@ class block_sms extends block_base {
     public function instance_config_save($data) {
         foreach ($data as $name => $value) {
             set_config($name, $value);
-            echo '<script>alert("'.$value.'");</script>';
+            // echo '<script>alert("'.$value.'");</script>';
         }
         return true;
     }
