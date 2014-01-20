@@ -29,6 +29,8 @@ require_once("lib.php");
 global $DB, $OUTPUT, $PAGE, $CFG, $USER;
 require_login();
 // Plugin variable.
+$PAGE->set_context(context_system::instance());
+
 $viewpage = required_param('viewpage', PARAM_INT);
 $rem = optional_param('rem', null, PARAM_RAW);
 $edit = optional_param('edit', null, PARAM_RAW);
