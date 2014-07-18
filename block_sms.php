@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -19,48 +20,36 @@
  * send text messages to their student and teacher.
  * @package blocks
  * @author: Azmat Ullah, Talha Noor
- * @date: 06-Jun-2013
-*/
+ * @date: 17-Jul-2014
+ */
 
 class block_sms extends block_base {
+
     public function init() {
         $this->title = get_string('sms', 'block_sms');
     }
+
     public function get_content() {
         global $CFG, $USER, $COURSE;
         if ($this->content !== null) {
             return $this->content;
         }
-        // $pageurl = new moodle_url('/blocks/sms/view.php?viewpage=');
-        $this->content =  new stdClass;
-        // $this->content->text .= html_writer::link($pageurl.'2', get_string('sms_send', 'block_sms')).'<br>';
-        // $this->content->text .= html_writer::link($pageurl.'3', get_string('sms_template', 'block_sms')).'<br>';
-        $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '2')), get_string('sms_send', 'block_sms')).'<br>';
-        $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '3')), get_string('sms_template', 'block_sms')).'<br>';
+        $this->content = new stdClass;
+        $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '2')), get_string('sms_send', 'block_sms')) . '<br>';
+        $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '3')), get_string('sms_template', 'block_sms')) . '<br>';
         return $this->content;
     }
+
     public function has_config() {
         return true;
     }
+
     public function applicable_formats() {
         return array('all' => true);
     }
+
     public function instance_allow_config() {
         return true;
     }
-    public function specialization() {
-        if (!empty($this->config->title)) {
-            $this->title = $this->config->title;
-        } else {
-            $this->config->title = 'Default title ...';
-        }
-    }
 
-    public function instance_config_save($data) {
-        foreach ($data as $name => $value) {
-            set_config($name, $value);
-            // echo '<script>alert("'.$value.'");</script>';
-        }
-        return true;
-    }
-}   
+}
