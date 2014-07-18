@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -19,10 +20,10 @@
  * send text messages to their student and teacher.
  * @package blocks
  * @author: Azmat Ullah, Talha Noor
- * @date: 06-Jun-2013
-*/
+ * @date: 17-Jul-2014
+ */
 
-$msg=addslashes((String)$_REQUEST['msg']);
+$msg = addslashes((String) $_REQUEST['msg']);
 
 require_once('../../config.php');
 require_once('sms_form.php');
@@ -30,8 +31,12 @@ require_once("lib.php");
 
 $c_id = required_param('c_id', PARAM_INT);
 $r_id = required_param('r_id', PARAM_INT);
+$g_id = required_param('g_id', PARAM_INT);
+$isgroup = required_param('isgroup', PARAM_INT);
+
+
 $form = new sms_send();
-$table= $form->display_report($c_id,$r_id);
-$a= html_writer::table($table);
-echo $a."<input type='hidden' value=\"'$msg'\" name='msg' />";
+$table = $form->display_report($c_id, $r_id, $g_id, $isgroup);
+$a = html_writer::table($table);
+echo $a . "<input type='hidden' value=\"'$msg'\" name='msg' />";
 ?>
