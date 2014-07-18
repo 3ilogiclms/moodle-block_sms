@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -19,10 +20,10 @@
  * send text messages to their student and teacher.
  * @package blocks
  * @author: Azmat Ullah, Talha Noor
- * @date: 06-Jun-2013
-*/
+ * @date: 17-Jul-2014
+ */
 
-$plugin->version   = 2013060702;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2011070100;        // Requires this Moodle version
-$plugin->release = '2.3';
-$plugin->maturity = MATURITY_BETA;
+$plugin->version = 2013060709;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->requires = 2011070100;        // Requires this Moodle version
+$plugin->release = '2.7';
+$plugin->maturity = MATURITY_ALPHA;
