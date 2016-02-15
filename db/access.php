@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
-     'block/sms:myaddinstance' => array(
+    'block/sms:myaddinstance' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -70,7 +70,7 @@ $capabilities = array(
         'legacy' => array(
             'guest' => CAP_PREVENT,
             'student' => CAP_PREVENT,
-            'teacher' => CAP_PREVENT,
+            'teacher' => CAP_ALLOW,
             'editingteacher' => CAP_ALLOW,
             'coursecreator' => CAP_ALLOW,
             'manager' => CAP_ALLOW

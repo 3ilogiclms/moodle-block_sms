@@ -18,7 +18,7 @@
  * SMS notifier is a one way SMS messaging block that allows managers, teachers and administrators to
  * send text messages to their student and teacher.
  * @package blocks
- * @author: Azmat Ullah, Talha Noor, Yahya Faruqui
+ * @author: Azmat Ullah, Talha Noor
  * @date: 06-Jun-2013
 */
 
@@ -29,8 +29,6 @@ require_once("lib.php");
 global $DB, $OUTPUT, $PAGE, $CFG, $USER;
 require_login();
 // Plugin variable.
-$PAGE->set_context(context_system::instance());
-
 $viewpage = required_param('viewpage', PARAM_INT);
 $rem = optional_param('rem', null, PARAM_RAW);
 $edit = optional_param('edit', null, PARAM_RAW);
@@ -41,6 +39,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string("pluginname", 'block_sms'));
 $PAGE->set_heading('SMS Notification');
 $pageurl = new moodle_url('/blocks/sms/view.php?viewpage=2');
+$PAGE->set_url($pageurl);
 echo $OUTPUT->header();
 
 // Conditions
@@ -82,7 +81,7 @@ else if($viewpage == 2) {
        	 
         global $DB, $CFG;
         $table = new html_table();
-        $table->head  = array('S. No. ', 'Username', 'Numbers', 'Status');
+        $table->head  = array(get_string('serial_no', 'block_sms'), get_string('moodleuser', 'block_sms'), get_string('usernumber', 'block_sms'), get_string('status', 'block_sms'));
         $table->size  = array('10%', '40%', '30%', '20%');
         $table->align  = array('center', 'left', 'center', 'center');
         $table->width = '100%';
@@ -95,7 +94,7 @@ else if($viewpage == 2) {
                  $no= $rs2->phone2;
                  if(!empty($no)) {
                      $status = send_sms($no,$msg);
-                     if($status == "Sent") {
+                     if($status == get_string('sent', 'block_sms')) {
                          $status= "<img src=".$CFG->wwwroot.'/blocks/sms/pic/success.png'."></img>";
                      }
                 }
@@ -129,7 +128,7 @@ else if($viewpage == 2) {
     }
 
 }
-else if($viewpage == 3) {
+else if($viewpage == 3) { 
     $form = new template_form();
     if($rem) {
         if($delete) {
@@ -138,7 +137,7 @@ else if($viewpage == 3) {
             redirect($pageurl);
         }
         else {
-              echo $OUTPUT->confirm('Do You Want to Delete This Template?', '/blocks/sms/view.php?viewpage=3&rem=rem&delete='.$id, '/blocks/sms/view.php?viewpage=3');
+              echo $OUTPUT->confirm(get_string('askfordelete', 'block_sms'), '/blocks/sms/view.php?viewpage=3&rem=rem&delete='.$id, '/blocks/sms/view.php?viewpage=3');
         }
    }
     // Edit Message Template.
@@ -146,16 +145,23 @@ else if($viewpage == 3) {
         $get_template = $DB->get_record('block_sms_template', array('id'=>$id), '*');
         $form = new template_form();
         $form->set_data($get_template);
+        
+        
     }
     $toform['viewpage'] = $viewpage;
     $form->set_data($toform);
     $form->display();
     $table=$form->display_report();
     echo html_writer::table($table);
+   
+   
 }
 
-if($fromform = $form->get_data()) {
-    if($viewpage == 3) {
+
+
+if($fromform = $form->get_data()) { 
+        
+    if($viewpage == 3) { 
         global $DB;
         $chk = ($fromform->id) ? $DB->update_record('block_sms_template', $fromform) : $DB->insert_record('block_sms_template', $fromform);
         redirect($pageurl);

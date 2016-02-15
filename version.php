@@ -22,7 +22,8 @@
  * @date: 06-Jun-2013
 */
 
-$plugin->version   = 2013060705;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2016021200;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2010112400;        // Requires this Moodle version
+$plugin->component = 'block_sms';
 $plugin->release = '2.3';
 $plugin->maturity = MATURITY_BETA;

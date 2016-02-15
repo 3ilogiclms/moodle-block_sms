@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -20,11 +19,10 @@
  * send text messages to their student and teacher.
  * @package blocks
  * @author: Azmat Ullah, Talha Noor
- * @date: 17-Jul-2014
- */
+ * @date: 06-Jun-2013
+*/
 
-require_once('../../config.php');
-
+require_once(dirname(__FILE__).'/../../config.php');
 // Send SMS pk Api Function
 /**
  * This function will send the SMS using sendsms.pk.API is only for Pakistan's users.
@@ -38,9 +36,10 @@ function send_sms($to, $msg) {
     /* THE SMS API WORK BEGINS HERE */
     require_once('sms_api/sms.php');
 
-    $apikey = $CFG->block_sms_apikey;         // API Key.
+    $apikey=$CFG->block_sms_apikey;         // API Key.
 
-    $sms = new sendsmsdotpk($apikey);     // Making a new sendsms dot pk object.
+    $sms = new sendsmsdotpk($apikey);	    // Making a new sendsms dot pk object.
+    
     // isValid.
     if ($sms->isValid()) {
         $status = get_string('valid_key', 'block_sms');
@@ -48,8 +47,6 @@ function send_sms($to, $msg) {
         $status = "KEY: " . $apikey . " IS NOT VALID";
     }
     $msg = stripslashes($msg);
-    $msg = str_replace("'", "", $msg);
-    $msg = urlencode($msg);
     // SEND SMS.
     if ($sms->sendsms($to, $msg, 0)) {
         $status = get_string('sent', 'block_sms');
@@ -64,17 +61,18 @@ function send_sms($to, $msg) {
  *
  * @param int   $to  User id
  * @param string $msg  Message Text
- * @return Sent SMS status
+ * @return Call back URL through clickatell
  */
 function send_sms_clickatell($to, $message) {
     global $CFG;
-    /* User Numbers */
+    /*User Numbers*/
     $numbers = '';
-    foreach ($to as $num) {
-        if ($numbers == '') {
-            $numbers = $num;
-        } else {
-            $numbers .= ',' . $num;
+    foreach($to as $num){
+        if($numbers == '') {
+            $numbers =  $num;
+        }
+        else {
+            $numbers .=  ','.$num;
         }
     }
 
@@ -84,44 +82,19 @@ function send_sms_clickatell($to, $message) {
     $password = $CFG->block_sms_api_password;
     // SMS API.
     $api_id = $CFG->block_sms_apikey;
-    // Message
-    $message = str_replace("'", "", $message);
-    $message = urlencode($message);
-
     // Send Sms.
-    $url = "http://api.clickatell.com/http/sendmsg?user=" . $username . "&password=" . $password . "&api_id=" . $api_id . "&to=" . $numbers . "&text=" . $message;
-    //$url = urlencode($url);
-    //echo $url;
-
-    $ch = curl_init();
-
-    // Set url and other options
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-
-    // Get the page contents
-    $output = curl_exec($ch);
-
-    $count = substr_count($output, 'ID');
-    if ($count >= 1) {
-        echo "<div id='load-users' style='border: 1px solid;margin: 10px 0px;padding:15px 10px 15px 50px;background-repeat: no-repeat;background-position: 10px center;color: #00529B;background-image: url(" . 'pic/success.png' . "); background-color: #BDE5F8;border-color: #3b8eb5;'>$count Message(s) sent successfully. Details of SMS can be viewed in clickatell account.</div>";
-    } else
-        echo "<div id='load-users' style='border: 1px solid;margin: 10px 0px;padding:15px 10px 15px 50px;background-repeat: no-repeat;background-position: 10px center;color: #00529B;background-image: url(" . 'pic/error.png' . "); background-color: #BDE5F8;border-color: #3b8eb5;'>Error sending SMS.</div>";
-
-    // close curl resource to free up system resources 
-    curl_close($ch);
-
-    //redirect($url);
+    $url = "http://api.clickatell.com/http/sendmsg?user=".$username."&password=".$password."&api_id=".$api_id."&to=".$numbers."&text=".$message;
+    redirect($url);
 }
 
 function block_sms_print_page($sms) {
     global $OUTPUT, $COURSE;
     $display = $OUTPUT->heading($sms->pagetitle);
     $display .= $OUTPUT->box_start();
-    if ($sms->displaydate) {
+    if($sms->displaydate) {
         $display .= userdate($sms->displaydate);
     }
-    if ($return) {
+    if($return) {
         return $display;
     } else {
         echo $display;
@@ -139,18 +112,4 @@ function get_msg($id) {
     $result = $DB->get_record_sql('SELECT cju.j_id, cj.job FROM {competency_job} AS cj inner join {competency_job_user} AS cju ON cj.id = cju.j_id
                                   WHERE cju.u_id = ?', array($id));
     return $result->msg;
-}
-
-function isGroup_null($c_id) {
-    global $DB;
-//    $result = $DB->get_record_sql("SELECT concat (firstname,' ', lastname) as name FROM {user} WHERE id = ?",
-//                                 array($id));
-    $result = $DB->record_exists('groups', array('courseid' => $c_id));
-    return $result;
-}
-
-function get_groups($c_id) {
-    global $DB;
-    $groups = $DB->get_records_sql_menu('select id, name from {groups} where courseid =?', array($c_id));
-    return $groups;
 }

@@ -19,7 +19,7 @@ _________________________________
 4) Copy API ID and paste it on Moodle setting page with username and password
 
 
-Sendsms.pk
+Sendsms.pk(This API will only work in Pakistan)
 For Send SMS API, See http://www.sendsms.pk/
 _________________________________
 1) Create an account on sendsms.pk
@@ -27,10 +27,3 @@ _________________________________
 3) Click SMS API under setting link
 4) Copy API ID and paste it on Moodle setting page with username and password
 
-Moodle 2.7 Version Release notes
-
-- Added Group option on SMS sending page
-- Solved blank role field issue by adding Moodle short names, custom names & Archetypes option in Moodle settings page.
-- Added multiple SMS receive feature by adding roles list in settings page
-- Removed warnings which were displayed in debugging mode
- 
