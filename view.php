@@ -50,7 +50,7 @@ echo $OUTPUT->header();
 <script type="text/javascript" language="javascript" src="public/datatable/jquery.dataTables.js"></script>
 <script type="text/javascript" language="javascript" src="public/datatable/dataTables.tableTools.js"></script>
 <script type="text/javascript" language="javascript" class="init">
-    /*$(document).ready(function () {
+    $(document).ready(function () {
 		// fn for automatically adjusting table coulmns
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             $($.fn.dataTable.tables(true)).DataTable()
@@ -72,7 +72,7 @@ echo $OUTPUT->header();
                 "sSwfPath": "public/datatable/copy_csv_xls_pdf.swf"
             }
         });
-    });*/
+    });
 </script>
 <!-- DataTables code ends-->
 
@@ -183,7 +183,10 @@ else if($viewpage == 2) {
                     $number[] =$no;
                 }
             }
-            send_sms_clickatell($number, $msg);
+            $check = send_sms_clickatell($number, $msg);
+			if($check){
+			echo "<script>alert('Message successfully sent!')</script>";	
+			};
         }
 		// Yutobo API.
         else if($CFG->block_sms_api == 2) {

@@ -152,7 +152,21 @@ function send_sms_clickatell($to, $message) {
     $api_id = $CFG->block_sms_apikey;
     // Send Sms.
     $url = "http://api.clickatell.com/http/sendmsg?user=".$username."&password=".$password."&api_id=".$api_id."&to=".$numbers."&text=".$message;
-    redirect($url);
+	//redirect($url);
+	
+	$ch = curl_init();
+    $timeout = 30;
+    // Set url and other options
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+    // Get the page contents
+    $output = curl_exec($ch);
+
+    $count = substr_count($output, 'ID');
+	curl_close($ch);
+	
+	return $output;
 }
 
 function block_sms_print_page($sms) {

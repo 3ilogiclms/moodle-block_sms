@@ -127,7 +127,7 @@ class sms_send extends moodleform {
             WHERE r.id = $r_id";
         $count  =  $DB->record_exists_sql($sql, array ($params=null));
         if($count >= 1) {
-            $table->head  = array(get_string('serial_no', 'block_sms'), get_string('name', 'block_sms'), get_string('cell_no', 'block_sms'), "<a href='javascript:setCheckboxes();' style='color:#333;' class='chkmenu'>Select | unselect all</a>");
+            $table->head  = array(get_string('serial_no', 'block_sms'), get_string('name', 'block_sms'), get_string('cell_no', 'block_sms'), "<a href='javascript:setCheckboxes();' style='color:#333;' class='chkmenu'>Select all| Unselect all</a>");
             $table->size  = array('10%', '20%', '20%', '20%');
             $table->align  = array('center', 'left', 'center', 'center');
             $rs = $DB->get_recordset_sql($sql, array(), null, null);
@@ -172,7 +172,7 @@ class template_form extends moodleform {
         global $DB;
         $errors = array();
         if ($data['tname'] == "") {
-            $errors['tname'] = "Please Insert Temaplte Name.";
+            $errors['tname'] = "Please Insert Template Name.";
 
             if ($DB->record_exists('block_sms_template', array('tname' => $data['tname']))) {
                 $errors['template'] = 'Template Name is already exists';
@@ -188,7 +188,8 @@ class template_form extends moodleform {
         $table->head  = array(get_string('serial_no', 'block_sms'), get_string('name', 'block_sms'), get_string('msg_body', 'block_sms'), get_string('edit', 'block_sms'), get_string('delete', 'block_sms'));
         $table->size  = array('10%', '20%', '50%', '10%', '10%');
         $table->align  = array('center', 'left', 'left', 'center', 'center');
-        $table->width = '100%';
+		$table->attributes = array("class" => "display");
+		$table->width = '100%';
         $table->data  = array();
         $sql="SELECT * FROM {block_sms_template}";
         $rs = $DB->get_recordset_sql($sql, array(),  null, null);
