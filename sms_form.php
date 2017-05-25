@@ -108,8 +108,9 @@ class sms_send extends moodleform {
     public function display_report($c_id = null, $r_id = null) {
         global $DB, $OUTPUT, $CFG, $USER;
         $table = new html_table();
-        $table->attributes = array("name" => "userlist");
-        $table->attributes = array("id" => "userlist");
+/*      $table->attributes = array("class" => "display");
+		$table->attributes = array("name" => "userlist");*/
+        $table->attributes = array("id" => "userlist", "class" => "display", "name" => "userlist");
         $table->width = '100%';
         $table->data  = array();
         if(empty($c_id)) {
@@ -126,7 +127,7 @@ class sms_send extends moodleform {
             WHERE r.id = $r_id";
         $count  =  $DB->record_exists_sql($sql, array ($params=null));
         if($count >= 1) {
-            $table->head  = array(get_string('serial_no', 'block_sms'), get_string('name', 'block_sms'), get_string('cell_no', 'block_sms'), get_string('select', 'block_sms'));
+            $table->head  = array(get_string('serial_no', 'block_sms'), get_string('name', 'block_sms'), get_string('cell_no', 'block_sms'), "<a href='javascript:setCheckboxes();' style='color:#333;' class='chkmenu'>Select | unselect all</a>");
             $table->size  = array('10%', '20%', '20%', '20%');
             $table->align  = array('center', 'left', 'center', 'center');
             $rs = $DB->get_recordset_sql($sql, array(), null, null);
@@ -137,7 +138,8 @@ class sms_send extends moodleform {
                 $row[] = ++$i;
                 $row[] = $log->firstname;
                 $row[] = $log->phone2;
-                $row[] = "<input type='checkbox' class='usercheckbox' name='user[]' value='$log->id'/>";
+				
+				$row[] = "<input style='width:20px; height:30px;' type='checkbox' class='check_list' name='user[]' value='$log->id'/>";
                 $table->data[] = $row;
             }
         }

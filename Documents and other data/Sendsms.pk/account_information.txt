@@ -1,0 +1,8 @@
+Sendsms.pk API
+------------- 
+
+username: 923462254677
+
+password: 8972
+
+API KEY for our account is : 78516

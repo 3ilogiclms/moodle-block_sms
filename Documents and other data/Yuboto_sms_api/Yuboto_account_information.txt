@@ -1,0 +1,10 @@
+Yuboto SMS API
+------------- 
+
+url:https://services.yuboto.com/yuniverse/index.aspx?p=login
+
+username: wideservices
+
+password: Y0boto!
+
+API KEY for our account is : 089D1A99-498D-42F6-9849-82B7A4133D39

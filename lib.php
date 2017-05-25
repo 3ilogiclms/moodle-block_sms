@@ -31,30 +31,98 @@ require_once(dirname(__FILE__).'/../../config.php');
  * @param string $msg  Message Text
  * @return String $status return will shows the status of message.
  */
-function send_sms($to, $msg) {
-    global $CFG;
-    /* THE SMS API WORK BEGINS HERE */
-    require_once('sms_api/sms.php');
+function yutobo_path($api_key, $from, $to, $text) {
 
-    $apikey=$CFG->block_sms_apikey;         // API Key.
+$url = "https://services.yuboto.com/web2sms/api/v2/smsc.aspx?api_key=".$api_key."&action=send&from=".$from."&to=".$to."&text=".$text;
+//redirect($url);
 
-    $sms = new sendsmsdotpk($apikey);	    // Making a new sendsms dot pk object.
+	$ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+	// support https url
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
-    // isValid.
-    if ($sms->isValid()) {
-        $status = get_string('valid_key', 'block_sms');
-    } else {
-        $status = "KEY: " . $apikey . " IS NOT VALID";
-    }
-    $msg = stripslashes($msg);
-    // SEND SMS.
-    if ($sms->sendsms($to, $msg, 0)) {
-        $status = get_string('sent', 'block_sms');
-    } else {
-        $status = get_string('error', 'block_sms');
-    }
-    return $status;
+	$output = curl_exec($ch);
+	return $output;
+	curl_close($ch);
 }
+ 
+ 
+//function send_sms($to, $msg) {
+//    global $CFG;
+//    /* THE SMS API WORK BEGINS HERE */
+//    require_once('sms_api/sms.php');
+//
+//    $apikey=$CFG->block_sms_apikey;         // API Key.
+//
+//    $sms = new sendsmsdotpk($apikey);	    // Making a new sendsms dot pk object.
+//    
+//    // isValid.
+//    if ($sms->isValid()) {
+//        $status = get_string('valid_key', 'block_sms');
+//    } else {
+//        $status = "KEY: " . $apikey . " IS NOT VALID";
+//    }
+//    $msg = stripslashes($msg);
+//    // SEND SMS.
+//    if ($sms->sendsms($to, $msg, 0)) {
+//        $status = get_string('sent', 'block_sms');
+//    } else {
+//        $status = get_string('error', 'block_sms');
+//    }
+//    return $status;
+//}
+
+function bulk_sms($to, $message) {
+    global $CFG;
+    /* User Numbers */
+    $numbers = '';
+//    foreach ($to as $num) {
+//        if ($numbers == '') {
+//            $numbers = $num;
+//        } else {
+//            $numbers .= ',' . $num;
+//        }
+//    }
+	$numbers = $to;
+    // Usernames.
+    $username = $CFG->block_sms_api_username;
+    // Password
+    $password = $CFG->block_sms_api_password;
+    // SMS API.
+    //$api_id = $CFG->block_sms_apikey;
+    // Message
+    $message = str_replace("'", "", $message);
+    $message = urlencode($message);
+    $sender = "3i Logic";
+
+    // Send Sms.
+    $url = "http://sendpk.com/api/sms.php?username=" . $username . "&password=" . $password . "&mobile=" . $numbers . "&message=" . $message . "&sender=" . $sender;
+    //$url = urlencode($url);
+    //echo $url;
+    $ch = curl_init();
+    $timeout = 30;
+    // Set url and other options
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+    // Get the page contents
+    $output = curl_exec($ch);
+
+    $count = substr_count($output, 'ID');
+//    if ($count >= 1) {
+//        echo "<div id='load-users' style='border: 1px solid;margin: 10px 0px;padding:15px 10px 15px 50px;background-repeat: no-repeat;background-position: 10px center;color: #00529B;background-image: url(" . 'pic/success.png' . "); background-color: #BDE5F8;border-color: #3b8eb5;'>$count Message(s) sent successfully. Detail Report of SMS can be viewed at http://bulksms.com.pk/ account.</div>";
+//    } else
+//        echo "<div id='load-users' style='border: 1px solid;margin: 10px 0px;padding:15px 10px 15px 50px;background-repeat: no-repeat;background-position: 10px center;color: #00529B;background-image: url(" . 'pic/error.png' . "); background-color: #BDE5F8;border-color: #3b8eb5;'>Error sending SMS.</div>";
+//    // close curl resource to free up system resources
+    curl_close($ch);
+    //redirect($url);
+   return $output;
+}
+
+
+
+
 
 /**
  * This function will send the SMS using Clickatells API, by this API Users can send international messages.

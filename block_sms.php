@@ -31,10 +31,11 @@ class block_sms extends block_base {
 
     public function get_content() {
         global $CFG, $USER, $COURSE;
-        if ($this->content !== null) {
+		if ($this->content !== null) {
             return $this->content;
         }
         $this->content = new stdClass;
+		$this->content->text = '';
         $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '2')), get_string('sms_send', 'block_sms')) . '<br>';
         $this->content->text .= html_writer::link(new moodle_url('/blocks/sms/view.php', array('viewpage' => '3')), get_string('sms_template', 'block_sms')) . '<br>';
         return $this->content;

@@ -19,10 +19,10 @@
  * send text messages to their student and teacher.
  * @package blocks
  * @author: Azmat Ullah, Talha Noor
- * @date: 06-Jun-2013
+ * @date: 12-Feb-2016
 */
 
-$plugin->version   = 2016021200;        // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2017022001;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2010112400;        // Requires this Moodle version
 $plugin->component = 'block_sms';
 $plugin->release = '2.3';

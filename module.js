@@ -55,7 +55,34 @@ M.block_sms.init = function(Y,param3) {
                     console.log(json);
                     userlist.set('innerHTML', json);
                     sms_send.show();
-                    }
+					
+					
+					
+					
+					// datatable starts
+					$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+					$($.fn.dataTable.tables(true)).DataTable()
+						.columns.adjust();
+					});
+	
+					$('.display').DataTable({
+					
+					dom: 'T<"clear">lfrtip',
+					tableTools: {
+					"aButtons": [
+						"copy",
+						"print",
+						{
+							"sExtends": "collection",
+							"sButtonText": "Save",
+							"aButtons": ["xls", "pdf"]
+						}
+					],
+					"sSwfPath": "public/datatable/copy_csv_xls_pdf.swf"
+					 }
+					});	
+					// datatable ends
+					}
                 }
           });
     });
